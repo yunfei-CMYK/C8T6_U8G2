@@ -23,6 +23,8 @@ int betteranimation(double *cur, double vel, double *trg, double k, double c);
 void scanKeys(u8g2_t *u8g2);
 void ZDscanKeys(u8g2_t *u8g2);
 uint8_t myScan(int mode);
-void controlBar(u8g2_t *u8g2);
+//void controlBar(u8g2_t *u8g2);
+int controlBar(u8g2_t *u8g2);
+void scrollMenu(u8g2_t *u8g2);
 
 #endif //C8T6_U8G2_UI_H

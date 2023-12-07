@@ -98,7 +98,8 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-      controlBar(&u8g2);
+//      controlBar(&u8g2);
+      scrollMenu(&u8g2);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

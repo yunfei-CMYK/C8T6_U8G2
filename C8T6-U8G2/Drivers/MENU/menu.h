@@ -25,10 +25,9 @@ typedef struct MENU_State
 }Menu_State;
 
 
-void mydrawMenu(u8g2_t *u8g2);
-void scrollMenu(int direction);
 void select_bar(u8g2_t *u8g2);
-void showMainMenu(u8g2_t *u8g2);
+void showMainMenu(u8g2_t *u8g2, int *mentstart);
+//void showMainMenu(u8g2_t *u8g2);
 
 
 #endif //C8T6_U8G2_MENU_H

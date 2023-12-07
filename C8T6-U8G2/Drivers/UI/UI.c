@@ -15,8 +15,10 @@ short target_y = 0;
 uint8_t Box_CurW = 16;
 uint8_t Box_CurH = 16;
 
-uint8_t key = 0;
+int mainMenuStart = 0;
+int MenuID = 0;
 
+uint8_t key = 0;
 
 int animation(short *cur, short *trg, uint8_t step, uint8_t slow_cnt) {
     double temp;
@@ -191,7 +193,7 @@ uint8_t myScan(int mode) {
     return keyvalue.id;
 }
 
-void controlBar(u8g2_t *u8g2) {
+int controlBar(u8g2_t *u8g2) {
     key = myScan(0);
     short max_y = 48;  // 最大的y坐标值
     short min_y = 0;   // 最小的y坐标值
@@ -207,24 +209,29 @@ void controlBar(u8g2_t *u8g2) {
         case up:
             LED_Toggle();
             if (frame_y <= 0 && bar_y <= 0) {
-                frame_y_trg = 48;
-                bar_y_trg = 48;
+                frame_y_trg = 0;
+                bar_y_trg = 0;
+                if (mainMenuStart > 0) {
+                    mainMenuStart--;
+                }
+
             } else {
                 frame_y_trg -= 16;
                 bar_y_trg -= 16;
             }
-
             break;
         case down:
             LED_Toggle();
             if (frame_y >= 48 && bar_y >= 48) {
-                frame_y_trg = 0;
-                bar_y_trg = 0;
+                frame_y_trg = 48;
+                bar_y_trg = 48;
+                if (mainMenuStart < 5) {
+                    mainMenuStart++;
+                }
             } else {
                 frame_y_trg += 16;
                 bar_y_trg += 16;
             }
-
             break;
         case left:
             break;
@@ -235,5 +242,72 @@ void controlBar(u8g2_t *u8g2) {
         default:
             break;
     }
-    showMainMenu(u8g2);
+    return mainMenuStart;
 }
+
+void scrollMenu(u8g2_t *u8g2) {
+    int ms = controlBar(u8g2);
+    showMainMenu(u8g2, &ms);
+}
+//void controlBar(u8g2_t *u8g2) {
+//    key = myScan(0);
+//    short max_y = 48;  // 最大的y坐标值
+//    short min_y = 0;   // 最小的y坐标值
+//    // 在处理按键之前再次检查当前的frame_y和bar_y是否越界
+//    if (frame_y < min_y && bar_y < min_y) {
+//        frame_y = min_y;
+//        bar_y = min_y;
+//    } else if (frame_y > max_y && bar_y > min_y) {
+//        frame_y = max_y;
+//        bar_y = max_y;
+//    }
+//    switch (key) {
+//        case up:
+//            LED_Toggle();
+//            if (frame_y <= 0 && bar_y <= 0) {
+//                frame_y_trg = 0;
+//                bar_y_trg = 0;
+//            } else {
+//                frame_y_trg -= 16;
+//                bar_y_trg -= 16;
+//            }
+//
+//            break;
+//        case down:
+//            LED_Toggle();
+//            if (MenuID < 3)
+//            {
+//                MenuID++;
+//                if (frame_y >= 48 && bar_y >= 48) {
+//                    frame_y_trg = 48;
+//                    bar_y_trg = 48;
+//                } else {
+//                    frame_y_trg += 16;
+//                    bar_y_trg += 16;
+//                }
+//            }else if (MenuID >3)
+//            {
+//                MenuID++;
+//                MenuStart++;
+//            }
+//            if (frame_y >= 48 && bar_y >= 48) {
+//                frame_y_trg = 48;
+//                bar_y_trg = 48;
+//            } else {
+//                frame_y_trg += 16;
+//                bar_y_trg += 16;
+//            }
+//            break;
+//        case left:
+//            break;
+//        case right:
+//            break;
+//        case middle:
+//            break;
+//        default:
+//            break;
+//    }
+////    showMainMenu(u8g2, MenuStart);
+////    showMainMenu(u8g2);
+//}
+
