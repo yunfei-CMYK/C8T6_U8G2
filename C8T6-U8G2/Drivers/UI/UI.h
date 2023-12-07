@@ -18,13 +18,21 @@
 #define Box_Width     16
 #define Box_Height    16
 
+#define up  1
+#define down 2
+#define left 3
+#define right 4
+#define middle 5
+
+typedef struct {
+    uint8_t id;
+} Key;
+
 int animation(short *cur, short *trg, uint8_t step, uint8_t slow_cnt);
-int betteranimation(double *cur, double vel, double *trg, double k, double c);
-void scanKeys(u8g2_t *u8g2);
-void ZDscanKeys(u8g2_t *u8g2);
 uint8_t myScan(int mode);
-//void controlBar(u8g2_t *u8g2);
-int controlBar(u8g2_t *u8g2);
+void up_function();
+void down_function();
+int controlBar();
 void scrollMenu(u8g2_t *u8g2);
 
 #endif //C8T6_U8G2_UI_H

@@ -4,9 +4,6 @@
 
 #include "menu.h"
 
-#define MENU_SIZE 9
-#define DISPLAY_SIZE 4
-
 short frame_y = 0, frame_y_trg = 0;
 short bar_y = 0, bar_y_trg = 0;
 
@@ -23,8 +20,7 @@ M_SELECT mainmenu[] = {
         {"NULL"},
 };
 
-/*!
- *
+/*
  * @param u8g2
  * this function is draw select_bar
  */
@@ -51,16 +47,6 @@ void showMainMenu(u8g2_t *u8g2, int *mentstart) {
     select_bar(u8g2);
     u8g2_SendBuffer(u8g2);
 }
-//void showMainMenu(u8g2_t *u8g2) {
-//    u8g2_ClearBuffer(u8g2);
-//    int mainMenu_len = sizeof(mainmenu) / sizeof(mainmenu[0]);
-//    for (int i = 2; i < 9; i++) {
-//        u8g2_DrawStr(u8g2, 20, (i - 1) * 15, mainmenu[i].label);
-//    }
-//    u8g2_SetFont(u8g2, u8g2_font_t0_16_mf);
-//    select_bar(u8g2);
-//    u8g2_SendBuffer(u8g2);
-//}
 
 
 

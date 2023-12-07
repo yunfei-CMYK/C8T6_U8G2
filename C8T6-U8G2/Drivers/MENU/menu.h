@@ -17,17 +17,7 @@ typedef struct MENU
     const char *label;
 }M_SELECT;
 
-typedef struct MENU_State
-{
-    int16_t menu_start;		/* in pixel */
-    int16_t frame_position;		/* in pixel */
-    uint8_t position;			/* position, array index */
-}Menu_State;
-
-
 void select_bar(u8g2_t *u8g2);
 void showMainMenu(u8g2_t *u8g2, int *mentstart);
-//void showMainMenu(u8g2_t *u8g2);
-
 
 #endif //C8T6_U8G2_MENU_H
