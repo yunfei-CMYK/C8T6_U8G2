@@ -16,7 +16,7 @@ uint8_t Box_CurW = 16;
 uint8_t Box_CurH = 16;
 
 int mainMenuStart = 0;
-int MenuID = 0;
+int MenuState = 0;
 
 uint8_t key = 0;
 
@@ -77,7 +77,6 @@ void up_function() {
         if (mainMenuStart > 0) {
             mainMenuStart--;
         }
-
     } else {
         frame_y_trg -= 16;
         bar_y_trg -= 16;
@@ -91,7 +90,7 @@ void down_function() {
     if (frame_y >= 48 && bar_y >= 48) {
         frame_y_trg = 48;
         bar_y_trg = 48;
-        if (mainMenuStart < 5) {   /*---------one page only display 4 menu item-------------*/
+        if (mainMenuStart < lastMainmenuStart) {   /*---------one page only display 4 menu item-------------*/
             mainMenuStart++;
         }
     } else {
@@ -100,7 +99,8 @@ void down_function() {
     }
 }
 
-int controlBar() {
+int controlBar(u8g2_t *u8g2) {
+    MenuState = Main_Menu;
     key = myScan(0);
     short max_y = 48;  // 最大的y坐标值
     short min_y = 0;   // 最小的y坐标值
@@ -122,8 +122,10 @@ int controlBar() {
             down_function();
             break;
         case left:
+//            showMenu(u8g2,SystemSubmenu,4,0);
             break;
         case right:
+
             break;
         case middle:
             break;
@@ -135,7 +137,13 @@ int controlBar() {
 
 void scrollMenu(u8g2_t *u8g2) {
     int ms = controlBar(u8g2);         /*------ms:menu start location-------------*/
-    showMainMenu(u8g2, &ms);
+//    showMainMenu(u8g2, &ms);
+    showMenu(u8g2,mainmenu,11,&ms);
+}
+
+void allproces()
+{
+
 }
 
 

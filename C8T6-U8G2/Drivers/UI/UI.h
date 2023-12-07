@@ -23,6 +23,7 @@
 #define left 3
 #define right 4
 #define middle 5
+#define lastMainmenuStart 7     /*------last page 7,8,9,10-------*/
 
 typedef struct {
     uint8_t id;
@@ -32,7 +33,7 @@ int animation(short *cur, short *trg, uint8_t step, uint8_t slow_cnt);
 uint8_t myScan(int mode);
 void up_function();
 void down_function();
-int controlBar();
+int controlBar(u8g2_t *u8g2);
 void scrollMenu(u8g2_t *u8g2);
 
 #endif //C8T6_U8G2_UI_H
