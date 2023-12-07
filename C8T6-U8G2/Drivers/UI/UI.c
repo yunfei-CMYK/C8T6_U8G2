@@ -22,7 +22,7 @@ uint8_t key = 0;
 
 int animation(short *cur, short *trg, uint8_t step, uint8_t slow_cnt) {
     double temp;
-    temp = fabs((double)*trg - (double)*cur) > slow_cnt ? step : 1;
+    temp = fabs((double) *trg - (double) *cur) > slow_cnt ? step : 1;
     if (*cur < *trg) {
         *cur += temp;
     } else if (*cur > *trg) {
@@ -58,6 +58,8 @@ uint8_t myScan(int mode) {
             case KeyMid_Press:
                 keyvalue.id = middle;
                 break;
+            default:
+                break;
         }
     } else {
         HAL_Delay(10);
@@ -65,8 +67,10 @@ uint8_t myScan(int mode) {
     return keyvalue.id;
 }
 
-void up_function()
-{
+/*!
+ * up key control code
+ */
+void up_function() {
     if (frame_y <= 0 && bar_y <= 0) {
         frame_y_trg = 0;
         bar_y_trg = 0;
@@ -79,8 +83,11 @@ void up_function()
         bar_y_trg -= 16;
     }
 }
-void down_function()
-{
+
+/*!
+ * down key control code
+ */
+void down_function() {
     if (frame_y >= 48 && bar_y >= 48) {
         frame_y_trg = 48;
         bar_y_trg = 48;
@@ -92,6 +99,7 @@ void down_function()
         bar_y_trg += 16;
     }
 }
+
 int controlBar() {
     key = myScan(0);
     short max_y = 48;  // 最大的y坐标值

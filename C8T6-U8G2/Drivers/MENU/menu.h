@@ -18,6 +18,6 @@ typedef struct MENU
 }M_SELECT;
 
 void select_bar(u8g2_t *u8g2);
-void showMainMenu(u8g2_t *u8g2, int *mentstart);
+void showMainMenu(u8g2_t *u8g2, const int *mentstart);
 
 #endif //C8T6_U8G2_MENU_H

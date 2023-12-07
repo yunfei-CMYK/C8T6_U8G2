@@ -4,6 +4,9 @@
 
 #include "menu.h"
 
+/*!
+ *  initialize select frame value and bar value
+ */
 short frame_y = 0, frame_y_trg = 0;
 short bar_y = 0, bar_y_trg = 0;
 
@@ -37,7 +40,7 @@ void select_bar(u8g2_t *u8g2) {
     u8g2_SetDrawColor(u8g2, 2);
 }
 
-void showMainMenu(u8g2_t *u8g2, int *mentstart) {
+void showMainMenu(u8g2_t *u8g2, const int *mentstart) {
     u8g2_ClearBuffer(u8g2);
     int mainMenu_len = sizeof(mainmenu) / sizeof(mainmenu[0]);
     for (int i = *mentstart; i < mainMenu_len; i++) {
