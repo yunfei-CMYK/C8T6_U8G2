@@ -227,13 +227,10 @@ void controlBar(u8g2_t *u8g2) {
 
             break;
         case left:
-            LED_Toggle();
             break;
         case right:
-            LED_Toggle();
             break;
         case middle:
-
             break;
         default:
             break;
