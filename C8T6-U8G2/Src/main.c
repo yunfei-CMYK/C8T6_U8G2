@@ -90,14 +90,13 @@ int main(void)
   /* USER CODE BEGIN 2 */
     u8g2_t u8g2;
     u8g2Init(&u8g2);
-
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-      scrollMenu(&u8g2);
+      controlBar(&u8g2);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
