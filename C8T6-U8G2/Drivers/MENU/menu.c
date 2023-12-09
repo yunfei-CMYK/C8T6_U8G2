@@ -3,23 +3,18 @@
 //
 #include "menu.h"
 
-/*!
- *  initialize select frame value and bar value
- */
-short frame_y = 0, frame_y_trg = 0;
-short bar_y = 0, bar_y_trg = 0;
-
-/*-------------------Draw menu content----------------*/
+/*-------------------Draw menu content basic location----------------*/
 int8_t menubase_x = 5;
 int8_t menubase_y = 15;
 
 
 /*-------------------Box coordinate--------------------*/
-short target_x = 0;
-short target_y = 0;
+short frame_y = 0, frame_y_trg = 0;
+short bar_y = 0, bar_y_trg = 0;
 
 uint8_t key = 0;
 
+/*-------------menu state parameter------------*/
 
 int MenuStart = 0;
 int MenuLastStart = 7;
@@ -28,12 +23,15 @@ uint8_t MenuItemNum = 10;
 
 int16_t ui_select = 0;
 
+
 MenuState state = Main_Menu;
 
-/*------------------used to store the previous menu location--------------*/
-int previousMenuStart = 0;
 
-/*--------------------------menuitem callback function-----------------*/
+/*---------saves the state of the previous menu*/
+int previousMenuStart = 0;
+int previous_ui_select = 0;
+int previous_frame_y_trg = 0;
+int previous_bar_y_trg = 0;
 
 
 /*--------------default display Main_Menu-----------------*/
@@ -64,7 +62,7 @@ M_SELECT Systemmenu[] = {
         {"STM32F103c8t6"},
 };
 
-M_SELECT Devicesmenu[]= {
+M_SELECT Devicesmenu[] = {
         {"Keyboard"},
         {"Mouse"},
         {"Earphone"},
@@ -75,7 +73,7 @@ M_SELECT Devicesmenu[]= {
         {"LEGION"},
 };
 
-M_SELECT Networkmenu[]= {
+M_SELECT Networkmenu[] = {
         {"Network-Status"},
         {"WLAN"},
         {"Mobile-Data"},
@@ -86,7 +84,7 @@ M_SELECT Networkmenu[]= {
         {"Reset"},
 };
 
-M_SELECT Personalizemenu[]= {
+M_SELECT Personalizemenu[] = {
         {"Theme"},
         {"Wallpaper"},
         {"Font-Size"},
@@ -97,7 +95,7 @@ M_SELECT Personalizemenu[]= {
         {"StartMenu"},
 };
 
-M_SELECT Applicationmenu[]= {
+M_SELECT Applicationmenu[] = {
         {"App-Permissions"},
         {"Default-Apps"},
         {"Notifications"},
@@ -108,7 +106,7 @@ M_SELECT Applicationmenu[]= {
         {"TikTok"},
 };
 
-M_SELECT Accountmenu[]= {
+M_SELECT Accountmenu[] = {
         {"Sign-in"},
         {"Account-Info"},
         {"Payment-Card"},
@@ -119,7 +117,7 @@ M_SELECT Accountmenu[]= {
         {"Fingerprint"},
 };
 
-M_SELECT Gamemenu[]= {
+M_SELECT Gamemenu[] = {
         {"Graphics-Setting"},
         {"Sound-Setting"},
         {"Difficulty-Level"},
@@ -129,7 +127,7 @@ M_SELECT Gamemenu[]= {
         {"Halo"},
         {"LOL"},
 };
-M_SELECT Privacymenu[]= {
+M_SELECT Privacymenu[] = {
         {"Privacy-Policy"},
         {"Data-Collection"},
         {"Data-Sharing"},
@@ -139,7 +137,7 @@ M_SELECT Privacymenu[]= {
         {"AD"},
         {"Search"},
 };
-M_SELECT TimeDatemenu[]= {
+M_SELECT TimeDatemenu[] = {
         {"Date"},
         {"Time"},
         {"Year"},
@@ -149,7 +147,7 @@ M_SELECT TimeDatemenu[]= {
         {"Auto-Setting"},
         {"Time-Zone"},
 };
-M_SELECT Updatemenu[]= {
+M_SELECT Updatemenu[] = {
         {"Check-Update"},
         {"Auto-Update"},
         {"Pure-Mode"},
@@ -159,16 +157,17 @@ M_SELECT Updatemenu[]= {
         {"Beta"},
         {"Stable"},
 };
-M_SELECT Aboutmenu[]= {
+M_SELECT Aboutmenu[] = {
         {"Device-Info"},
         {"Legal-Info"},
         {"Version-Info"},
-        {"Version:1.0"},
+        {"Version:1.1"},
         {"Powered-by-JLF"},
         {"UID:212431220"},
         {"Support:CY"},
         {"I Love You-CY"},
 };
+
 /*!
  *
  * @param cur
@@ -260,7 +259,7 @@ uint8_t myScan(int mode) {
     return keyvalue.id;
 }
 
-/*!
+/*
  * up key control code
  */
 void up_function() {
@@ -269,7 +268,7 @@ void up_function() {
         bar_y_trg = Top_Y;
         if (ui_select > 0) ui_select = 0;
         if (MenuStart > 0) {
-            MenuStart --;
+            MenuStart--;
         }
     } else {
         frame_y_trg -= Step;
@@ -278,7 +277,7 @@ void up_function() {
     }
 }
 
-/*!
+/*
  * down key control code
  */
 void down_function() {
@@ -293,13 +292,28 @@ void down_function() {
         frame_y_trg += 16;
         bar_y_trg += 16;
     }
-    if (ui_select < MenuItemNum)
-    {
+    if (ui_select < MenuItemNum) {
         ui_select++;
     }
 }
 
+/*-------------save the state of the previous menu-------------------*/
+void savePreviousState() {
+    previousMenuStart = MenuStart;
+    previous_ui_select = ui_select;
+    previous_frame_y_trg = frame_y_trg;
+    previous_bar_y_trg = bar_y_trg;
+}
 
+/*-------------Recover the state of the previous menu-------------------*/
+void RecoverPreviousState() {
+    MenuStart = previousMenuStart;
+    ui_select = previous_ui_select;
+    frame_y_trg = previous_frame_y_trg;
+    bar_y_trg = previous_bar_y_trg;
+}
+
+/*-------------check if the select frame and bar is crossed -------------------*/
 void check() {
     short max_y = Bottom_Y;  // 最大的y坐标值
     short min_y = 0;   // 最小的y坐标值
@@ -313,17 +327,9 @@ void check() {
     }
 }
 
-
-/*!
- *
- * @param u8g2
- * @param menu
- * @param menulen
+/*
+ * Perform a state toggle and move the selection box
  */
-//void scrollMenu(u8g2_t *u8g2, const M_SELECT menu, int menulen) {
-//    printMenu(u8g2, &menu, menulen, &MenuStart);
-//}
-
 void controlKey(u8g2_t *u8g2) {
     key = myScan(0);
     check();
@@ -342,78 +348,78 @@ void controlKey(u8g2_t *u8g2) {
         case right:
             switch (ui_select) {
                 case 0:
-                    if(state == Main_Menu){
-                        previousMenuStart = MenuStart;
+                    if (state == Main_Menu) {
+                        savePreviousState();
                         state = System_Menu;
                     }
                     LED_Toggle();
                     break;
                 case 1:
-                    if(state == Main_Menu){
-                        previousMenuStart = MenuStart;
+                    if (state == Main_Menu) {
+                        savePreviousState();
                         state = Devices_Menu;
                     }
                     LED_Toggle();
                     break;
                 case 2:
-                    if(state == Main_Menu){
-                        previousMenuStart = MenuStart;
+                    if (state == Main_Menu) {
+                        savePreviousState();
                         state = Network_Menu;
                     }
                     LED_Toggle();
                     break;
                 case 3:
-                    if(state == Main_Menu){
-                        previousMenuStart = MenuStart;
+                    if (state == Main_Menu) {
+                        savePreviousState();
                         state = Personalize_Menu;
                     }
                     LED_Toggle();
                     break;
                 case 4:
-                    if(state == Main_Menu){
-                        previousMenuStart = MenuStart;
+                    if (state == Main_Menu) {
+                        savePreviousState();
                         state = Application_Menu;
                     }
                     LED_Toggle();
                     break;
                 case 5:
-                    if(state == Main_Menu){
-                        previousMenuStart = MenuStart;
+                    if (state == Main_Menu) {
+                        savePreviousState();
                         state = Account_Menu;
                     }
                     LED_Toggle();
                     break;
                 case 6:
-                    if(state == Main_Menu){
-                        previousMenuStart = MenuStart;
+                    if (state == Main_Menu) {
+                        savePreviousState();
                         state = Game_Menu;
                     }
                     LED_Toggle();
                     break;
                 case 7:
-                    if(state == Main_Menu){
-                        previousMenuStart = MenuStart;
+                    if (state == Main_Menu) {
+                        savePreviousState();
                         state = Privacy_Menu;
                     }
                     LED_Toggle();
                     break;
                 case 8:
-                    if(state == Main_Menu){
-                        previousMenuStart = MenuStart;
+                    if (state == Main_Menu) {
+                        savePreviousState();
                         state = Time_Date_Menu;
                     }
                     LED_Toggle();
                     break;
                 case 9:
-                    if(state == Main_Menu){
-                        previousMenuStart = MenuStart;
+                    if (state == Main_Menu) {
+                        savePreviousState();
                         state = Update_Menu;
                     }
                     LED_Toggle();
                     break;
                 case 10:
-                    if(state == Main_Menu){
-                        previousMenuStart = MenuStart;
+                    if (state == Main_Menu) {
+                        savePreviousState();
                         state = About_Menu;
                     }
                     LED_Toggle();
@@ -427,79 +433,65 @@ void controlKey(u8g2_t *u8g2) {
     }
     scrollMenu(u8g2);
 }
+
 void scrollMenu(u8g2_t *u8g2) {
-    if(state == Main_Menu)
-    {
+    if (state == Main_Menu) {
         int num = sizeof(Mainmenu) / sizeof(Mainmenu[0]);
         printMenu(u8g2, Mainmenu, num, &MenuStart);
-    }
-    else if (state == System_Menu)
-    {
+    } else if (state == System_Menu) {
         int num = sizeof(Systemmenu) / sizeof(Systemmenu[0]);
         printMenu(u8g2, Systemmenu, num, &MenuStart);
-    }
-    else if(state == Devices_Menu)
-    {
+    } else if (state == Devices_Menu) {
         int num = sizeof(Devicesmenu) / sizeof(Devicesmenu[0]);
         printMenu(u8g2, Devicesmenu, num, &MenuStart);
 
-    }
-    else if (state == Network_Menu){
+    } else if (state == Network_Menu) {
         int num = sizeof(Networkmenu) / sizeof(Networkmenu[0]);
         printMenu(u8g2, Networkmenu, num, &MenuStart);
-    }
-    else if (state == Personalize_Menu){
+    } else if (state == Personalize_Menu) {
         int num = sizeof(Personalizemenu) / sizeof(Personalizemenu[0]);
         printMenu(u8g2, Personalizemenu, num, &MenuStart);
-    }
-    else if (state == Application_Menu){
+    } else if (state == Application_Menu) {
         int num = sizeof(Applicationmenu) / sizeof(Applicationmenu[0]);
         printMenu(u8g2, Applicationmenu, num, &MenuStart);
-    }
-    else if (state == Account_Menu){
+    } else if (state == Account_Menu) {
         int num = sizeof(Accountmenu) / sizeof(Accountmenu[0]);
         printMenu(u8g2, Accountmenu, num, &MenuStart);
-    }
-    else if (state == Game_Menu){
+    } else if (state == Game_Menu) {
         int num = sizeof(Gamemenu) / sizeof(Gamemenu[0]);
         printMenu(u8g2, Gamemenu, num, &MenuStart);
-    }
-    else if (state == Privacy_Menu){
+    } else if (state == Privacy_Menu) {
         int num = sizeof(Privacymenu) / sizeof(Privacymenu[0]);
         printMenu(u8g2, Privacymenu, num, &MenuStart);
-    }
-    else if (state == Time_Date_Menu){
+    } else if (state == Time_Date_Menu) {
         int num = sizeof(TimeDatemenu) / sizeof(TimeDatemenu[0]);
         printMenu(u8g2, TimeDatemenu, num, &MenuStart);
-    }
-    else if (state == Update_Menu){
+    } else if (state == Update_Menu) {
         int num = sizeof(Updatemenu) / sizeof(Updatemenu[0]);
         printMenu(u8g2, Updatemenu, num, &MenuStart);
-    }
-    else if (state == About_Menu){
+    } else if (state == About_Menu) {
         int num = sizeof(Aboutmenu) / sizeof(Aboutmenu[0]);
         printMenu(u8g2, Aboutmenu, num, &MenuStart);
     }
 }
 
-void InitParameters()
-{
+void InitParameters() {
     ui_select = 0;
     MenuStart = 0;
     frame_y_trg = 0;
     bar_y_trg = 0;
 }
 
-void StateControl(u8g2_t *u8g2)
-{
+void StateControl(u8g2_t *u8g2) {
     switch (state) {
         case Main_Menu:
             InitParameters();
+            RecoverPreviousState();
             MenuLastStart = 7;
             MenuItemNum = 10;
             do {
                 controlKey(u8g2);
-                if(state != Main_Menu){
+                if (state != Main_Menu) {
                     u8g2_ClearBuffer(u8g2);
                     break;
                 }
@@ -511,7 +503,7 @@ void StateControl(u8g2_t *u8g2)
             MenuItemNum = 7;
             do {
                 controlKey(u8g2);
-                if(state != System_Menu){
+                if (state != System_Menu) {
                     u8g2_ClearBuffer(u8g2);
                     break;
                 }
@@ -523,7 +515,7 @@ void StateControl(u8g2_t *u8g2)
             MenuItemNum = 7;
             do {
                 controlKey(u8g2);
-                if(state != Devices_Menu){
+                if (state != Devices_Menu) {
                     u8g2_ClearBuffer(u8g2);
                     break;
                 }
@@ -535,7 +527,7 @@ void StateControl(u8g2_t *u8g2)
             MenuItemNum = 7;
             do {
                 controlKey(u8g2);
-                if(state != Network_Menu){
+                if (state != Network_Menu) {
                     u8g2_ClearBuffer(u8g2);
                     break;
                 }
@@ -547,7 +539,7 @@ void StateControl(u8g2_t *u8g2)
             MenuItemNum = 7;
             do {
                 controlKey(u8g2);
-                if(state != Personalize_Menu){
+                if (state != Personalize_Menu) {
                     u8g2_ClearBuffer(u8g2);
                     break;
                 }
@@ -559,7 +551,7 @@ void StateControl(u8g2_t *u8g2)
             MenuItemNum = 7;
             do {
                 controlKey(u8g2);
-                if(state != Application_Menu){
+                if (state != Application_Menu) {
                     u8g2_ClearBuffer(u8g2);
                     break;
                 }
@@ -571,7 +563,7 @@ void StateControl(u8g2_t *u8g2)
             MenuItemNum = 7;
             do {
                 controlKey(u8g2);
-                if(state != Account_Menu){
+                if (state != Account_Menu) {
                     u8g2_ClearBuffer(u8g2);
                     break;
                 }
@@ -583,7 +575,7 @@ void StateControl(u8g2_t *u8g2)
             MenuItemNum = 7;
             do {
                 controlKey(u8g2);
-                if(state != Game_Menu){
+                if (state != Game_Menu) {
                     u8g2_ClearBuffer(u8g2);
                     break;
                 }
@@ -595,7 +587,7 @@ void StateControl(u8g2_t *u8g2)
             MenuItemNum = 7;
             do {
                 controlKey(u8g2);
-                if(state != Privacy_Menu){
+                if (state != Privacy_Menu) {
                     u8g2_ClearBuffer(u8g2);
                     break;
                 }
@@ -607,7 +599,7 @@ void StateControl(u8g2_t *u8g2)
             MenuItemNum = 7;
             do {
                 controlKey(u8g2);
-                if(state != Time_Date_Menu){
+                if (state != Time_Date_Menu) {
                     u8g2_ClearBuffer(u8g2);
                     break;
                 }
@@ -619,7 +611,7 @@ void StateControl(u8g2_t *u8g2)
             MenuItemNum = 7;
             do {
                 controlKey(u8g2);
-                if(state != Update_Menu){
+                if (state != Update_Menu) {
                     u8g2_ClearBuffer(u8g2);
                     break;
                 }
@@ -631,7 +623,7 @@ void StateControl(u8g2_t *u8g2)
             MenuItemNum = 7;
             do {
                 controlKey(u8g2);
-                if(state != About_Menu){
+                if (state != About_Menu) {
                     u8g2_ClearBuffer(u8g2);
                     break;
                 }
