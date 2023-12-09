@@ -161,7 +161,7 @@ M_SELECT Aboutmenu[] = {
         {"Device-Info"},
         {"Legal-Info"},
         {"Version-Info"},
-        {"Version:1.1"},
+        {"Version:1.0"},
         {"Powered-by-JLF"},
         {"UID:212431220"},
         {"Support:CY"},
