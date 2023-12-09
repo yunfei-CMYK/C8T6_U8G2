@@ -266,15 +266,15 @@ void up_function() {
     if (frame_y <= Top_Y && bar_y <= Top_Y) {
         frame_y_trg = Top_Y;
         bar_y_trg = Top_Y;
-        if (ui_select > 0) ui_select = 0;
         if (MenuStart > 0) {
             MenuStart--;
         }
     } else {
         frame_y_trg -= Step;
         bar_y_trg -= Step;
-        ui_select--;
     }
+    if(ui_select>0)ui_select--;
+
 }
 
 /*
