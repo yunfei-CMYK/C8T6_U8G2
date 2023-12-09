@@ -30,6 +30,9 @@ int16_t ui_select = 0;
 
 MenuState state = Main_Menu;
 
+/*------------------used to store the previous menu location--------------*/
+int previousMenuStart = 0;
+
 /*--------------------------menuitem callback function-----------------*/
 
 
@@ -54,11 +57,11 @@ M_SELECT Systemmenu[] = {
         {"Display"},
         {"Sound"},
         {"Shake"},
-        {"About"},
-        {"Keyboard"},
-        {"Mouse"},
-        {"Earphone"},
-        {"ST-Link"},
+        {"System-Info"},
+        {"Storage"},
+        {"Power"},
+        {"Security"},
+        {"STM32F103c8t6"},
 };
 
 M_SELECT Devicesmenu[]= {
@@ -66,12 +69,20 @@ M_SELECT Devicesmenu[]= {
         {"Mouse"},
         {"Earphone"},
         {"ST-Link"},
+        {"Screen"},
+        {"USB-C"},
+        {"Camera"},
+        {"LEGION"},
 };
 
 M_SELECT Networkmenu[]= {
         {"Network-Status"},
         {"WLAN"},
         {"Mobile-Data"},
+        {"DNS"},
+        {"Proxy"},
+        {"MAC-Address"},
+        {"Wireless"},
         {"Reset"},
 };
 
@@ -80,6 +91,10 @@ M_SELECT Personalizemenu[]= {
         {"Wallpaper"},
         {"Font-Size"},
         {"Ringtone"},
+        {"Color"},
+        {"UI-Style"},
+        {"TaskBar"},
+        {"StartMenu"},
 };
 
 M_SELECT Applicationmenu[]= {
@@ -87,6 +102,10 @@ M_SELECT Applicationmenu[]= {
         {"Default-Apps"},
         {"Notifications"},
         {"Storage-Usage"},
+        {"Advanced"},
+        {"Offline-Map"},
+        {"Video"},
+        {"TikTok"},
 };
 
 M_SELECT Accountmenu[]= {
@@ -94,6 +113,10 @@ M_SELECT Accountmenu[]= {
         {"Account-Info"},
         {"Payment-Card"},
         {"History"},
+        {"Family"},
+        {"OtherID"},
+        {"FaceID"},
+        {"Fingerprint"},
 };
 
 M_SELECT Gamemenu[]= {
@@ -101,30 +124,50 @@ M_SELECT Gamemenu[]= {
         {"Sound-Setting"},
         {"Difficulty-Level"},
         {"Achievements"},
+        {"GTA-6"},
+        {"Minecraft"},
+        {"Halo"},
+        {"LOL"},
 };
 M_SELECT Privacymenu[]= {
         {"Privacy-Policy"},
         {"Data-Collection"},
         {"Data-Sharing"},
         {"Security"},
+        {"Location"},
+        {"Microphone"},
+        {"AD"},
+        {"Search"},
 };
 M_SELECT TimeDatemenu[]= {
         {"Date"},
         {"Time"},
+        {"Year"},
+        {"Date Format"},
         {"12/24 Hour"},
         {"Date Format"},
+        {"Auto-Setting"},
+        {"Time-Zone"},
 };
 M_SELECT Updatemenu[]= {
         {"Check-Update"},
         {"Auto-Update"},
         {"Pure-Mode"},
         {"Backup"},
+        {"Stop-Update"},
+        {"Advanced"},
+        {"Beta"},
+        {"Stable"},
 };
 M_SELECT Aboutmenu[]= {
         {"Device-Info"},
         {"Legal-Info"},
         {"Version-Info"},
+        {"Version:1.0"},
         {"Powered-by-JLF"},
+        {"UID:212431220"},
+        {"Support:CY"},
+        {"I Love You-CY"},
 };
 /*!
  *
@@ -158,7 +201,7 @@ void Progress_bar(u8g2_t *u8g2) {
     u8g2_DrawLine(u8g2, 125, 31, 127, 31);
     u8g2_DrawLine(u8g2, 125, 47, 127, 47);
     u8g2_DrawLine(u8g2, 125, 63, 127, 63);
-    u8g2_DrawRBox(u8g2, 0, frame_y, 110, 17, 2);      //xuan ze kuang
+    u8g2_DrawRBox(u8g2, 0, frame_y, 120, 17, 2);      //xuan ze kuang
     u8g2_DrawBox(u8g2, 125, bar_y, 2, 17);     //Progress bar
     animation(&frame_y, &frame_y_trg, 1, 8);
     animation(&bar_y, &bar_y_trg, 1, 8);
@@ -299,47 +342,80 @@ void controlKey(u8g2_t *u8g2) {
         case right:
             switch (ui_select) {
                 case 0:
-                    state = System_Menu;
+                    if(state == Main_Menu){
+                        previousMenuStart = MenuStart;
+                        state = System_Menu;
+                    }
                     LED_Toggle();
                     break;
                 case 1:
-                    state = Devices_Menu;
+                    if(state == Main_Menu){
+                        previousMenuStart = MenuStart;
+                        state = Devices_Menu;
+                    }
                     LED_Toggle();
                     break;
                 case 2:
-                    state = Network_Menu;
+                    if(state == Main_Menu){
+                        previousMenuStart = MenuStart;
+                        state = Network_Menu;
+                    }
                     LED_Toggle();
                     break;
                 case 3:
-                    state = Personalize_Menu;
+                    if(state == Main_Menu){
+                        previousMenuStart = MenuStart;
+                        state = Personalize_Menu;
+                    }
                     LED_Toggle();
                     break;
                 case 4:
-                    state = Application_Menu;
+                    if(state == Main_Menu){
+                        previousMenuStart = MenuStart;
+                        state = Application_Menu;
+                    }
                     LED_Toggle();
                     break;
                 case 5:
-                    state = Account_Menu;
+                    if(state == Main_Menu){
+                        previousMenuStart = MenuStart;
+                        state = Account_Menu;
+                    }
                     LED_Toggle();
                     break;
                 case 6:
-                    state = Game_Menu;
+                    if(state == Main_Menu){
+                        previousMenuStart = MenuStart;
+                        state = Game_Menu;
+                    }
                     LED_Toggle();
                     break;
                 case 7:
-                    state = Privacy_Menu;
+                    if(state == Main_Menu){
+                        previousMenuStart = MenuStart;
+                        state = Privacy_Menu;
+                    }
                     LED_Toggle();
                     break;
                 case 8:
-                    state = Time_Date_Menu;
+                    if(state == Main_Menu){
+                        previousMenuStart = MenuStart;
+                        state = Time_Date_Menu;
+                    }
                     LED_Toggle();
                     break;
                 case 9:
-                    state = Update_Menu;
+                    if(state == Main_Menu){
+                        previousMenuStart = MenuStart;
+                        state = Update_Menu;
+                    }
                     LED_Toggle();
                     break;
                 case 10:
-                    state = About_Menu;
+                    if(state == Main_Menu){
+                        previousMenuStart = MenuStart;
+                        state = About_Menu;
+                    }
                     LED_Toggle();
                     break;
                 default:
@@ -414,10 +490,6 @@ void InitParameters()
     bar_y_trg = 0;
 }
 
-void testcontrol(u8g2_t *u8g2)
-{
-    controlKey(u8g2);
-}
 void StateControl(u8g2_t *u8g2)
 {
     switch (state) {
@@ -447,8 +519,8 @@ void StateControl(u8g2_t *u8g2)
             break;
         case Devices_Menu:
             InitParameters();
-            MenuLastStart = 0;
-            MenuItemNum = 3;
+            MenuLastStart = 4;
+            MenuItemNum = 7;
             do {
                 controlKey(u8g2);
                 if(state != Devices_Menu){
@@ -459,8 +531,8 @@ void StateControl(u8g2_t *u8g2)
             break;
         case Network_Menu:
             InitParameters();
-            MenuLastStart = 0;
-            MenuItemNum = 3;
+            MenuLastStart = 4;
+            MenuItemNum = 7;
             do {
                 controlKey(u8g2);
                 if(state != Network_Menu){
@@ -471,8 +543,8 @@ void StateControl(u8g2_t *u8g2)
             break;
         case Personalize_Menu:
             InitParameters();
-            MenuLastStart = 0;
-            MenuItemNum = 3;
+            MenuLastStart = 4;
+            MenuItemNum = 7;
             do {
                 controlKey(u8g2);
                 if(state != Personalize_Menu){
@@ -483,8 +555,8 @@ void StateControl(u8g2_t *u8g2)
             break;
         case Application_Menu:
             InitParameters();
-            MenuLastStart = 0;
-            MenuItemNum = 3;
+            MenuLastStart = 4;
+            MenuItemNum = 7;
             do {
                 controlKey(u8g2);
                 if(state != Application_Menu){
@@ -495,8 +567,8 @@ void StateControl(u8g2_t *u8g2)
             break;
         case Account_Menu:
             InitParameters();
-            MenuLastStart = 0;
-            MenuItemNum = 3;
+            MenuLastStart = 4;
+            MenuItemNum = 7;
             do {
                 controlKey(u8g2);
                 if(state != Account_Menu){
@@ -507,8 +579,8 @@ void StateControl(u8g2_t *u8g2)
             break;
         case Game_Menu:
             InitParameters();
-            MenuLastStart = 0;
-            MenuItemNum = 3;
+            MenuLastStart = 4;
+            MenuItemNum = 7;
             do {
                 controlKey(u8g2);
                 if(state != Game_Menu){
@@ -519,8 +591,8 @@ void StateControl(u8g2_t *u8g2)
             break;
         case Privacy_Menu:
             InitParameters();
-            MenuLastStart = 0;
-            MenuItemNum = 3;
+            MenuLastStart = 4;
+            MenuItemNum = 7;
             do {
                 controlKey(u8g2);
                 if(state != Privacy_Menu){
@@ -531,8 +603,8 @@ void StateControl(u8g2_t *u8g2)
             break;
         case Time_Date_Menu:
             InitParameters();
-            MenuLastStart = 0;
-            MenuItemNum = 3;
+            MenuLastStart = 4;
+            MenuItemNum = 7;
             do {
                 controlKey(u8g2);
                 if(state != Time_Date_Menu){
@@ -543,8 +615,8 @@ void StateControl(u8g2_t *u8g2)
             break;
         case Update_Menu:
             InitParameters();
-            MenuLastStart = 0;
-            MenuItemNum = 3;
+            MenuLastStart = 4;
+            MenuItemNum = 7;
             do {
                 controlKey(u8g2);
                 if(state != Update_Menu){
@@ -555,8 +627,8 @@ void StateControl(u8g2_t *u8g2)
             break;
         case About_Menu:
             InitParameters();
-            MenuLastStart = 0;
-            MenuItemNum = 3;
+            MenuLastStart = 4;
+            MenuItemNum = 7;
             do {
                 controlKey(u8g2);
                 if(state != About_Menu){
