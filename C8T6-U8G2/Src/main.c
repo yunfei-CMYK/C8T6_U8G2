@@ -96,7 +96,8 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-      controlBar(&u8g2);
+//      testcontrol(&u8g2);
+      StateControl(&u8g2);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

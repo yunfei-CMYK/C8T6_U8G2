@@ -34,8 +34,6 @@ typedef struct MENU
 //    void (*callbackFunction)();
 }M_SELECT;
 
-extern M_SELECT mainmenu[];
-extern M_SELECT SystemSubmenu[];
 
 typedef enum {
     Main_Menu = 0,
@@ -61,7 +59,9 @@ int animation(short *cur, const short *trg, uint8_t step, uint8_t slow_cnt);
 uint8_t myScan(int mode);
 void up_function();
 void down_function();
-void controlBar(u8g2_t *u8g2);
+void controlKey(u8g2_t *u8g2);
 void scrollMenu(u8g2_t *u8g2);
-void KeyScan(u8g2_t *u8g2);
+void InitParameters();
+void testcontrol(u8g2_t *u8g2);
+void StateControl(u8g2_t *u8g2);
 #endif //C8T6_U8G2_MENU_H

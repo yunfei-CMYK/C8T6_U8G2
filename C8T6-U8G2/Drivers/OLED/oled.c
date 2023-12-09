@@ -454,6 +454,7 @@ U8G2_MIRROR_VERTICAL    //没有旋转，竖向显示镜像
     u8g2_Setup_ssd1306_128x64_noname_f(u8g2, U8G2_R0, u8x8_byte_4wire_hw_spi, u8x8_stm32_gpio_and_delay);  // 初始化0.96寸OLED u8g2 结构体
     u8g2_InitDisplay(u8g2);     //初始化显示
     u8g2_SetPowerSave(u8g2, 0); //开启显示
+    u8g2_ClearBuffer(u8g2);
 }
 /*官方logo的Demo*/
 void draw(u8g2_t *u8g2)
