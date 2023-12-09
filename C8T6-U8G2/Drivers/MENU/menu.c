@@ -404,7 +404,6 @@ void scrollMenu(u8g2_t *u8g2) {
         int num = sizeof(Aboutmenu) / sizeof(Aboutmenu[0]);
         printMenu(u8g2, Aboutmenu, num, &MenuStart);
     }
-
 }
 
 void InitParameters()
