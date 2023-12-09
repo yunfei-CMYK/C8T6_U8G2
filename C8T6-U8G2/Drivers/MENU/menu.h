@@ -56,6 +56,7 @@ int animation(short *cur, const short *trg, uint8_t step, uint8_t slow_cnt);
 uint8_t myScan(int mode);
 void up_function();
 void down_function();
+int getFrameWidth(u8g2_t *u8g2);
 void savePreviousState();
 void RecoverPreviousState();
 void check();

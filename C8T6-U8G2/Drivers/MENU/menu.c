@@ -11,6 +11,7 @@ int8_t menubase_y = 15;
 /*-------------------Box coordinate--------------------*/
 short frame_y = 0, frame_y_trg = 0;
 short bar_y = 0, bar_y_trg = 0;
+short frame_width = 60, frame_width_trg = 60;
 
 uint8_t key = 0;
 
@@ -118,9 +119,9 @@ M_SELECT Accountmenu[] = {
 };
 
 M_SELECT Gamemenu[] = {
-        {"Graphics-Setting"},
-        {"Sound-Setting"},
-        {"Difficulty-Level"},
+        {"Graphics"},
+        {"Sound"},
+        {"Level"},
         {"Achievements"},
         {"GTA-6"},
         {"Minecraft"},
@@ -200,10 +201,13 @@ void Progress_bar(u8g2_t *u8g2) {
     u8g2_DrawLine(u8g2, 125, 31, 127, 31);
     u8g2_DrawLine(u8g2, 125, 47, 127, 47);
     u8g2_DrawLine(u8g2, 125, 63, 127, 63);
-    u8g2_DrawRBox(u8g2, 0, frame_y, 120, 17, 2);      //xuan ze kuang
+//    u8g2_DrawRBox(u8g2, 0, frame_y, 120, 17, 2);      //xuan ze kuang
+    u8g2_DrawRBox(u8g2, 0, frame_y, frame_width, 17, 2);      //xuan ze kuang
     u8g2_DrawBox(u8g2, 125, bar_y, 2, 17);     //Progress bar
-    animation(&frame_y, &frame_y_trg, 1, 8);
-    animation(&bar_y, &bar_y_trg, 1, 8);
+    frame_width_trg = getFrameWidth(u8g2);
+    animation(&frame_y, &frame_y_trg, 4, 8);
+    animation(&bar_y, &bar_y_trg, 4, 8);
+    animation(&frame_width,&frame_width_trg,4,8);
     u8g2_SetDrawColor(u8g2, 2);
 }
 
@@ -295,6 +299,55 @@ void down_function() {
     if (ui_select < MenuItemNum) {
         ui_select++;
     }
+}
+
+/*-------------Dynamically gets the width of the selection box--------*/
+int getFrameWidth(u8g2_t *u8g2)
+{
+    int num = ui_select;
+    int Width = 0;
+    switch (state) {
+        case Main_Menu:
+            Width = u8g2_GetStrWidth(u8g2,Mainmenu[num].label)+10;
+            break;
+        case System_Menu:
+            Width = u8g2_GetStrWidth(u8g2,Systemmenu[num].label)+10;
+            break;
+        case Devices_Menu:
+            Width = u8g2_GetStrWidth(u8g2,Devicesmenu[num].label)+10;
+            break;
+        case Network_Menu:
+            Width = u8g2_GetStrWidth(u8g2,Networkmenu[num].label)+10;
+            break;
+        case Personalize_Menu:
+            Width = u8g2_GetStrWidth(u8g2,Personalizemenu[num].label)+10;
+            break;
+        case Application_Menu:
+            Width = u8g2_GetStrWidth(u8g2,Applicationmenu[num].label)+10;
+            break;
+        case Account_Menu:
+            Width = u8g2_GetStrWidth(u8g2,Accountmenu[num].label)+10;
+            break;
+        case Game_Menu:
+            Width = u8g2_GetStrWidth(u8g2,Gamemenu[num].label)+10;
+            break;
+        case Privacy_Menu:
+            Width = u8g2_GetStrWidth(u8g2,Privacymenu[num].label)+10;
+            break;
+        case Time_Date_Menu:
+            Width = u8g2_GetStrWidth(u8g2,TimeDatemenu[num].label)+10;
+            break;
+        case Update_Menu:
+            Width = u8g2_GetStrWidth(u8g2,Updatemenu[num].label)+10;
+            break;
+        case About_Menu:
+            Width = u8g2_GetStrWidth(u8g2,Aboutmenu[num].label)+10;
+            break;
+        default:
+            break;
+    }
+    frame_width_trg = (short)Width;
+    return frame_width_trg;
 }
 
 /*-------------save the state of the previous menu-------------------*/
