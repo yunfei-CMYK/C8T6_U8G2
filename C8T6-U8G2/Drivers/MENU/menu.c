@@ -40,17 +40,17 @@ int previous_bar_y_trg = 0;
 MenuState currentMenuState = Main_Menu;
 
 M_SELECT Mainmenu[] = {
-        {"System"},
-        {"Devices"},
-        {"Network"},
-        {"Personalize"},
-        {"Application"},
-        {"Account"},
-        {"Game"},
-        {"Privacy"},
-        {"Time & Date"},
-        {"Update"},
-        {"About"},
+        {"-System"},
+        {"-Devices"},
+        {"-Network"},
+        {"-Personalize"},
+        {"-Application"},
+        {"-Account"},
+        {"-Game"},
+        {"-Privacy"},
+        {"-Time & Date"},
+        {"-Update"},
+        {"-About"},
 };
 
 M_SELECT Systemmenu[] = {
@@ -208,7 +208,7 @@ void Progress_bar(u8g2_t *u8g2) {
     frame_width_trg = (short)getFrameWidth(u8g2);
     animation(&frame_y, &frame_y_trg, 4, 8);
     animation(&bar_y, &bar_y_trg, 4, 8);
-    animation(&frame_width,&frame_width_trg,4,8);
+    animation(&frame_width,&frame_width_trg,6,8);
     u8g2_SetDrawColor(u8g2, 2);
 }
 
@@ -225,6 +225,7 @@ void printMenu(u8g2_t *u8g2, const M_SELECT *menu, int menulen, const int *MenuS
         u8g2_DrawStr(u8g2, menubase_x, (i - *MenuStart + 1) * menubase_y, menu[i].label);
     }
     u8g2_SetFont(u8g2, u8g2_font_t0_16_mf);
+//    u8g2_SetFont(u8g2,u8g2_font_wqy16_t_chinese2);
     Progress_bar(u8g2);
     u8g2_SendBuffer(u8g2);
 }
@@ -280,7 +281,6 @@ void up_function() {
         bar_y_trg -= Step;
     }
     if(ui_select>0)ui_select--;
-
 }
 
 /*
@@ -482,6 +482,13 @@ void controlKey(u8g2_t *u8g2) {
                     break;
                 default:
                     break;
+            }
+            break;
+        case middle:
+            /* test function*/
+            if (state == System_Menu && ui_select == 0)
+            {
+                LED_Toggle();
             }
             break;
         default:
