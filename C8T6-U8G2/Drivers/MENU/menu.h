@@ -64,4 +64,6 @@ void controlKey(u8g2_t *u8g2);
 void scrollMenu(u8g2_t *u8g2);
 void InitParameters();
 void StateControl(u8g2_t *u8g2);
+void StartUIDisplay(u8g2_t *u8g2);
+void JLF_UI(u8g2_t *u8g2);
 #endif //C8T6_U8G2_MENU_H

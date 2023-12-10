@@ -698,8 +698,38 @@ void StateControl(u8g2_t *u8g2) {
     }
 }
 
+void StartUIDisplay(u8g2_t *u8g2)
+{
+    for(int i=10;i<=100;i=i+1)
+    {
+        u8g2_ClearBuffer(u8g2);
 
+        char buff[20];
 
+        u8g2_SetFont(u8g2,u8g2_font_ncenB12_tf);
+        u8g2_DrawStr(u8g2,32,32,"JLF-UI");//字符显示
+
+        u8g2_DrawRBox(u8g2,16,40,i,10,4);//圆角填充框矩形框
+        u8g2_DrawRFrame(u8g2,16,40,100,10,5);//圆角矩形
+
+        u8g2_SendBuffer(u8g2);
+        HAL_Delay(25);
+    }
+    u8g2_ClearBuffer(u8g2);
+    u8g2_SetFont(u8g2,u8g2_font_t0_16_mf);
+    u8g2_DrawStr(u8g2,12,32,"Press the key");//字符显示
+    u8g2_SendBuffer(u8g2);
+}
+
+void JLF_UI(u8g2_t *u8g2)
+{
+    int startKey = 0;
+    startKey = myScan(0);
+    while(startKey == middle)
+    {
+        StateControl(u8g2);
+    }
+}
 
 
 
