@@ -704,6 +704,8 @@ void StartUIDisplay(u8g2_t *u8g2)
     {
         u8g2_ClearBuffer(u8g2);
 
+        char buff[20];
+
         u8g2_SetFont(u8g2,u8g2_font_ncenB12_tf);
         u8g2_DrawStr(u8g2,12,32,"Dragon & UI");//字符显示
 
