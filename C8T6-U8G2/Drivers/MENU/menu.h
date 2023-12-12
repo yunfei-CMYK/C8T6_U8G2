@@ -33,6 +33,11 @@ typedef struct MENU
     const char *label;
 }M_SELECT;
 
+typedef struct MenuItem{
+    const char *label;
+    uint8_t submenuID;
+}Menu_SELECT;
+
 
 typedef enum {
     Main_Menu = 0,
