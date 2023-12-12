@@ -715,6 +715,7 @@ void StartUIDisplay(u8g2_t *u8g2)
     }
     u8g2_ClearBuffer(u8g2);
     u8g2_SetFont(u8g2,u8g2_font_t0_16_mf);
+    u8g2_DrawStr(u8g2,12,16,"Hello");//字符显示
     u8g2_DrawStr(u8g2,12,32,"Press the Mid");//字符显示
     u8g2_DrawStr(u8g2,12,48,"Enter the UI ");//字符显示
     u8g2_SendBuffer(u8g2);
