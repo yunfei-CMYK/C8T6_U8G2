@@ -705,7 +705,7 @@ void StartUIDisplay(u8g2_t *u8g2)
         u8g2_ClearBuffer(u8g2);
 
         u8g2_SetFont(u8g2,u8g2_font_ncenB12_tf);
-        u8g2_DrawStr(u8g2,24,32,"JLF & UI");//字符显示
+        u8g2_DrawStr(u8g2,12,32,"Dragon & UI");//字符显示
 
         u8g2_DrawRBox(u8g2,16,40,i,10,4);//圆角填充框矩形框
         u8g2_DrawRFrame(u8g2,16,40,100,10,5);//圆角矩形
