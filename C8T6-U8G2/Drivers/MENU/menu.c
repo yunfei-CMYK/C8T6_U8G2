@@ -704,20 +704,19 @@ void StartUIDisplay(u8g2_t *u8g2)
     {
         u8g2_ClearBuffer(u8g2);
 
-        char buff[20];
-
         u8g2_SetFont(u8g2,u8g2_font_ncenB12_tf);
-        u8g2_DrawStr(u8g2,32,32,"JLF-UI");//字符显示
+        u8g2_DrawStr(u8g2,24,32,"JLF & UI");//字符显示
 
         u8g2_DrawRBox(u8g2,16,40,i,10,4);//圆角填充框矩形框
         u8g2_DrawRFrame(u8g2,16,40,100,10,5);//圆角矩形
 
         u8g2_SendBuffer(u8g2);
-        HAL_Delay(25);
+        HAL_Delay(10);
     }
     u8g2_ClearBuffer(u8g2);
     u8g2_SetFont(u8g2,u8g2_font_t0_16_mf);
-    u8g2_DrawStr(u8g2,12,32,"Press the key");//字符显示
+    u8g2_DrawStr(u8g2,12,32,"Press the Mid");//字符显示
+    u8g2_DrawStr(u8g2,12,48,"Enter the UI ");//字符显示
     u8g2_SendBuffer(u8g2);
 }
 
