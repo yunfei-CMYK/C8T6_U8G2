@@ -10,8 +10,6 @@
 #include "math.h"
 #include "u8g2.h"
 
-#define Screen_Width      128
-#define Screen_Height     64
 #define Icon_Width        32
 #define Icon_Height       32
 #define IconBar_Width     32

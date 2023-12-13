@@ -37,7 +37,6 @@ uint8_t IconItemNum = 10;
 
 int ui_select = 0;
 
-
 MenuState state = Icon_Menu;
 
 
