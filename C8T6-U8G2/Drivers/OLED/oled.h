@@ -50,6 +50,7 @@ uint8_t u8x8_stm32_gpio_and_delay(U8X8_UNUSED u8x8_t *u8x8,
                                   U8X8_UNUSED void *arg_ptr);
 void u8g2Init(u8g2_t *u8g2);
 void draw(u8g2_t *u8g2);
+void drawBMP(u8g2_t *u8g2);
 
 
 #endif

@@ -10,11 +10,19 @@
 #include "math.h"
 #include "u8g2.h"
 
-#define Screen_Width  128
-#define Screen_Height  64
-#define Top_Y       0
-#define Step           16
-#define Bottom_Y  48
+#define Screen_Width      128
+#define Screen_Height     64
+#define Icon_Width        32
+#define Icon_Height       32
+#define IconBar_Width     32
+#define IconBar_Height    1
+#define IconTitle_Y       55
+#define Top_Y             0
+#define Step              16
+#define Bottom_Y          48
+#define IconStart_X       8
+#define IconStep          40
+#define IconEnd_X         88
 
 /*------------------key value---------------------*/
 #define up  1
@@ -33,14 +41,14 @@ typedef struct MENU
     const char *label;
 }M_SELECT;
 
-typedef struct MenuItem{
+typedef struct MENUICON{
+    unsigned char *icon;
     const char *label;
-    uint8_t submenuID;
-}Menu_SELECT;
+}Menu_Icon;
 
 
 typedef enum {
-    Main_Menu = 0,
+    Icon_Menu = 0,
     System_Menu,
     Devices_Menu,
     Network_Menu,
@@ -56,16 +64,25 @@ typedef enum {
 
 
 void Progress_bar(u8g2_t *u8g2);
+void Icon_bar(u8g2_t *u8g2);
 void printMenu(u8g2_t *u8g2, const M_SELECT *menu, int menulen, const int *MenuStart);
+void printIcon(u8g2_t *u8g2, int iconlen,const int *IconStart);
+void printIconTitle(u8g2_t *u8g2);
 int animation(short *cur, const short *trg, uint8_t step, uint8_t slow_cnt);
 uint8_t myScan(int mode);
 void up_function();
 void down_function();
+void left_function();
+void right_function();
+void mid_function();
+int getIconTitleWidth(u8g2_t *u8g2);
 int getFrameWidth(u8g2_t *u8g2);
 void savePreviousState();
 void RecoverPreviousState();
 void check();
+void checkicon();
 void controlKey(u8g2_t *u8g2);
+void scrollIcon(u8g2_t *u8g2);
 void scrollMenu(u8g2_t *u8g2);
 void InitParameters();
 void StateControl(u8g2_t *u8g2);

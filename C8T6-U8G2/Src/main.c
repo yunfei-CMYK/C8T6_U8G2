@@ -98,6 +98,13 @@ int main(void)
   while (1)
   {
       JLF_UI(&u8g2);
+//      u8g2_FirstPage(&u8g2);
+//      do
+//      {
+//          drawBMP(&u8g2);
+////          draw(&u8g2);
+//      } while (u8g2_NextPage(&u8g2));
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

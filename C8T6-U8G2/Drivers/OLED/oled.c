@@ -1,6 +1,5 @@
 #include "oled.h"
 #include "oledfont.h"
-
 uint8_t OLED_GRAM[144][8];
 
 //反显函数
@@ -481,6 +480,25 @@ void draw(u8g2_t *u8g2)
     u8g2_SetFont(u8g2, u8g2_font_4x6_tr);
     u8g2_DrawStr(u8g2, 1,54,"github.com/olikraus/u8g2");
 }
-/********************************* end_of_file **********************************/
 
+
+void drawBMP(u8g2_t *u8g2)
+{
+//    u8g2_DrawXBMP(u8g2,7,2,32,32,icon_sysytem);
+//    u8g2_DrawXBMP(u8g2,47,2,32,32,icon_devices);
+//    u8g2_DrawXBMP(u8g2,87,2,32,32,icon_network);
+//    u8g2_DrawBox(u8g2,47,37,32,1);
+//    u8g2_SetFont(u8g2, u8g2_font_t0_16_mf);
+//    u8g2_DrawStr(u8g2,35,55,(char*)"System");
+//    u8g2_DrawXBMP(u8g2,87,7,32,32,icon_personalize);
+//    u8g2_DrawXBMP(u8g2,127,0,32,32,icon_application);
+//    u8g2_DrawXBMP(u8g2,0,31,32,32,icon_account);
+//    u8g2_DrawXBMP(u8g2,31,31,32,32,icon_game);
+//    u8g2_DrawXBMP(u8g2,63,31,32,32,icon_privacy);
+//    u8g2_DrawXBMP(u8g2,95,31,32,32,icon_timedate);
+//    u8g2_DrawXBMP(u8g2,2,2,32,32,icon_update);
+//    u8g2_DrawXBMP(u8g2,2,2,32,32,icon_about);
+
+}
+/********************************* end_of_file **********************************/
 
