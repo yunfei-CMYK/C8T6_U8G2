@@ -20,6 +20,8 @@ short frame_width = 60, frame_width_trg = 60;
 short IconBar_x = 8, IconBar_x_trg = 8;
 short IconBar_y = 37,IconBar_y_trg = 37;
 
+short Title_y = 63,Title_y_trg = 53;
+
 uint8_t key = 0;
 uint8_t iconkey = 0;
 
@@ -44,9 +46,9 @@ MenuState state = Icon_Menu;
 int previousMenuStart = 0;
 int previous_frame_y_trg = 0;
 int previous_bar_y_trg = 0;
-int previous_IconBar_x = 0;
+int previous_IconBar_x = 8;
 int previous_ui_select = 0;
-int previous_IconBar_x_trg = 0;
+int previous_IconBar_x_trg = 8;
 int previousIconStart = 0;
 
 /*--------------default display Icon_Menu-----------------*/
@@ -174,7 +176,7 @@ M_SELECT allMenu[][11] = {
                 {"Device-Info"},
                 {"Legal-Info"},
                 {"Version-Info"},
-                {"Version:1.3"},
+                {"Version:2.1"},
                 {"Powered-by-JLF"},
                 {"UID:212431220"},
                 {"Support:CY"},
@@ -228,6 +230,15 @@ void Progress_bar(u8g2_t *u8g2) {
  * use Icon_bar to select icon
  */
 void Icon_bar(u8g2_t *u8g2) {
+    /*-------Locate the coordinate point---------------*/
+//    u8g2_DrawPixel(u8g2,0,38);
+//    u8g2_DrawPixel(u8g2,8,38);
+//    u8g2_DrawPixel(u8g2,40,38);
+//    u8g2_DrawPixel(u8g2,48,38);
+//    u8g2_DrawPixel(u8g2,80,38);
+//    u8g2_DrawPixel(u8g2,88,38);
+//    u8g2_DrawPixel(u8g2,120,38);
+//    u8g2_DrawPixel(u8g2,127,38);
     u8g2_DrawBox(u8g2, IconBar_x, IconBar_y, IconBar_Width, IconBar_Height);
     animation(&IconBar_x, &IconBar_x_trg, 8, 10);
 }
@@ -261,10 +272,13 @@ void printIcon(u8g2_t *u8g2, int iconlen, const int *IconStart) {
 }
 
 void printIconTitle(u8g2_t *u8g2) {
+
     u8g2_SetFont(u8g2, u8g2_font_t0_16_mf);
     int i = ui_select;
     int title_width = getIconTitleWidth(u8g2);
-    u8g2_DrawStr(u8g2, (u8g2_GetDisplayWidth(u8g2) - title_width) / 2, IconTitle_Y, MenuIcon[i].label);
+    u8g2_DrawStr(u8g2, (u8g2_GetDisplayWidth(u8g2) - title_width) / 2, Title_y, MenuIcon[i].label);
+    animation(&Title_y,&Title_y_trg,2,4);
+
 }
 
 /*
@@ -323,16 +337,16 @@ void up_function() {
  * down key control code
  */
 void down_function() {
-    if (frame_y >= 48 && bar_y >= 48) {
-        frame_y_trg = 48;
-        bar_y_trg = 48;
+    if (frame_y >= Bottom_Y && bar_y >= Bottom_Y) {
+        frame_y_trg = Bottom_Y;
+        bar_y_trg = Bottom_Y;
         if (MenuStart < MenuLastStart) {   /*---------one page only display 4 menu item-------------*/
             MenuStart++;
         }
 
     } else {
-        frame_y_trg += 16;
-        bar_y_trg += 16;
+        frame_y_trg += Step;
+        bar_y_trg += Step;
     }
     if (ui_select < MenuItemNum) {
         ui_select++;
@@ -348,7 +362,14 @@ void left_function() {
     } else {
         IconBar_x_trg -= IconStep;
     }
-    if (ui_select > 0)ui_select--;
+    if (ui_select > 0)
+    {
+        ui_select--;
+        /*--Title pop-up effect--*/
+        Title_y = 63;
+        Title_y_trg = 53;
+    }
+
 }
 
 void right_function() {
@@ -362,6 +383,9 @@ void right_function() {
     }
     if (ui_select < IconItemNum) {
         ui_select++;
+        /*--Title pop-up effect--*/
+        Title_y = 63;
+        Title_y_trg = 53;
     }
 }
 
@@ -508,9 +532,10 @@ int getFrameWidth(u8g2_t *u8g2) {
 
 /*-------------save the state of the previous menu-------------------*/
 void savePreviousState() {
-//    previousMenuStart = MenuStart;
-//    previous_frame_y_trg = frame_y_trg;
-//    previous_bar_y_trg = bar_y_trg;
+    previousMenuStart = MenuStart;
+    previous_frame_y_trg = frame_y_trg;
+    previous_bar_y_trg = bar_y_trg;
+    previous_IconBar_x = IconBar_x;
     previous_ui_select = ui_select;
     previous_IconBar_x_trg = IconBar_x_trg;
     previousIconStart = IconStart;
@@ -518,9 +543,10 @@ void savePreviousState() {
 
 /*-------------Recover the state of the previous menu-------------------*/
 void RecoverPreviousState() {
-//    MenuStart = previousMenuStart;
-//    frame_y_trg = (short) previous_frame_y_trg;
-//    bar_y_trg = (short) previous_bar_y_trg;
+    MenuStart = previousMenuStart;
+    frame_y_trg = (short) previous_frame_y_trg;
+    bar_y_trg = (short) previous_bar_y_trg;
+    IconBar_x = (short)previous_IconBar_x;
     ui_select = previous_ui_select;
     IconBar_x_trg = (short) previous_IconBar_x_trg;
     IconStart = previousIconStart;
@@ -570,7 +596,6 @@ void controlKey(u8g2_t *u8g2) {
             if(state != Icon_Menu)
             {
                 state = Icon_Menu;
-//                InitParameters();
             }
             break;
         default:
@@ -615,7 +640,6 @@ void scrollIcon(u8g2_t *u8g2) {
     if (state == Icon_Menu) {
         int num = sizeof(all_icon) / sizeof(all_icon[0]);
         printIcon(u8g2, num, &IconStart);
-        printIconTitle(u8g2);
     }
 }
 
@@ -664,6 +688,7 @@ void InitParameters() {
     IconStart = 0;
     frame_y_trg = 0;
     bar_y_trg = 0;
+    IconBar_x = 8;
     IconBar_x_trg = 8;
 }
 

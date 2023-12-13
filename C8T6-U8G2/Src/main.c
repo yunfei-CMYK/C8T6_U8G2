@@ -98,6 +98,7 @@ int main(void)
   while (1)
   {
       JLF_UI(&u8g2);
+//      StateControl(&u8g2);
 //      u8g2_FirstPage(&u8g2);
 //      do
 //      {
