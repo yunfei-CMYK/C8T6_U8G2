@@ -47,8 +47,8 @@ int previousMenuStart = 0;
 int previous_frame_y_trg = 0;
 int previous_bar_y_trg = 0;
 int previous_IconBar_x = 8;
-int previous_ui_select = 0;
 int previous_IconBar_x_trg = 8;
+int previous_ui_select = 0;
 int previousIconStart = 0;
 
 /*--------------default display Icon_Menu-----------------*/
